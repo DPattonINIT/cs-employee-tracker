@@ -23,15 +23,16 @@ const LoginForm = () => {
     const inputsFilled = user.email !== "" && user.password !== "";
 
     const changeUser = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setUser({
-            ...user,
-            [event.target.id]: '',
-        });
+    setUser({
+        ...user,
+        [event.target.id]: event.target.value,
+    });
 
-        if (loginError) {
-            setLoginError(false);
-        }
-    };
+    if (loginError) {
+        setLoginError(false);
+    }
+};
+
 
     const handleLogin = async () => {
         setLoggingIn(true);
