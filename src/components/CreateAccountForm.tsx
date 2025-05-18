@@ -33,7 +33,8 @@ const CreateAccountForm = () => {
     setCreatingAccount(true);
 
     try {
-      const newUser = { id: 0, email: user.email, password: user.password };
+      const newUser = { email: user.email, password: user.password };
+
 
       if (await createUser(newUser)) {
         push("/login");

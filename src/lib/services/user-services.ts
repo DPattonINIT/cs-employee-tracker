@@ -1,6 +1,6 @@
 import { AuthInfo } from "../interfaces/interfaces";
 
-const baseURL = 'https://employee-student-api.azurewebsites.net/User/'
+const baseURL = 'https://employee-student-api.azurewebsites.net/user/'
 
 
 const login = async (loginInfo: AuthInfo, rememberMe: boolean) => {
@@ -35,7 +35,7 @@ const login = async (loginInfo: AuthInfo, rememberMe: boolean) => {
 }
 
 const createUser = async (user: AuthInfo) => {
-    const response = await fetch(`${baseURL}Login`, {
+    const response = await fetch(`${baseURL}createUser`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
