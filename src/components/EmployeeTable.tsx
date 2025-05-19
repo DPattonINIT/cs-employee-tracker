@@ -92,40 +92,35 @@ const EmployeeTable = () => {
     }, [token])
 
     // Sorting the employees
-    useEffect(() => {
-        const sortingEmployees = employees;
+   useEffect(() => {
+    const handleSorting = () => {
+        let updatedEmployees = [...employees]; 
 
-        const handleSorting = () => {
-            switch (sortBy) {
-                case "name":
-                    sortingEmployees.sort((a: Employee, b: Employee) => a.name.localeCompare(b.name));
-                    break;
-                case "name-reverse":
-                    sortingEmployees.sort((a: Employee, b: Employee) => b.name.localeCompare(a.name));
-                    break;
-                case "hire-date":
-                    sortingEmployees.sort(
-                        (a: Employee, b: Employee) => Number(new Date(b.hireDate)) - Number(new Date(a.hireDate))
-                    );
-                    break;
-                case "hire-date-reverse":
-                    sortingEmployees.sort(
-                        (a: Employee, b: Employee) => Number(new Date(a.hireDate)) - Number(new Date(b.hireDate))
-                    );
-                    break;
-                case "job-title":
-                    sortingEmployees.filter((employee: Employee) => employee.jobTitle == sortByJob);
-                    break;
-                default:
-                    sortingEmployees.sort((a: Employee, b: Employee) => a.id - b.id);
-                    break;
-            }
-            setSortedEmployees(sortingEmployees);
-        };
+        switch (sortBy) {
+            case "name":
+                updatedEmployees.sort((a, b) => a.name.localeCompare(b.name));
+                break;
+            case "name-reverse":
+                updatedEmployees.sort((a, b) => b.name.localeCompare(a.name));
+                break;
+            case "hire-date":
+                updatedEmployees.sort((a, b) => new Date(b.hireDate).getTime() - new Date(a.hireDate).getTime());
+                break;
+            case "hire-date-reverse":
+                updatedEmployees.sort((a, b) => new Date(a.hireDate).getTime() - new Date(b.hireDate).getTime());
+                break;
+            case "job-title":
+                updatedEmployees = updatedEmployees.filter(emp => emp.jobTitle === sortByJob);
+                break;
+            default:
+                break;
+        }
 
-        handleSorting();
+        setSortedEmployees(updatedEmployees);
+    };
 
-    }, [employees, sortBy, sortByJob]);
+    handleSorting();
+}, [employees, sortBy, sortByJob]);
 
     return (
         <>
