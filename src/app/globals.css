@@ -121,6 +121,14 @@ button,
 [onclick] {
   cursor: pointer;
 }
+[role="menu"],
+[role="menuitem"],
+.dropdown-item,
+.select-item {
+  cursor: pointer !important;
+}
+
+
 
 @layer base {
   * {
