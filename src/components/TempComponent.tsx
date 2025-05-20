@@ -13,6 +13,8 @@ import { CalendarIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
 import { format } from 'path';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
+
 
 const TempComponent = ({ type, employee, refreshEmployees }: { type: 'Add' | 'Edit', employee: Employee, refreshEmployees: () => Promise<void> }) => {
     // useStates
@@ -158,15 +160,25 @@ const TempComponent = ({ type, employee, refreshEmployees }: { type: 'Add' | 'Ed
                             />
                         </div>
                         <div>
-                            <div className="mb-2 block">
-                                <Label htmlFor="jobTitle">Job title</Label>
-                            </div>
-                            <Input
-                                id="jobTitle"
-                                value={employeeToChange.jobTitle}
-                                onChange={handleEmployeeToChange}
-                            />
-                        </div>
+    <div className="mb-2 block">
+        <Label htmlFor="jobTitle">Job title</Label>
+    </div>
+    <Select 
+        value={employeeToChange.jobTitle}
+        onValueChange={(value) =>
+            setEmployeeToChange({ ...employeeToChange, jobTitle: value })
+        }
+    >
+        <SelectTrigger className="w-full">
+            <SelectValue placeholder="Select a job title" />
+        </SelectTrigger>
+        <SelectContent>
+            <SelectItem value="Customer Support">Customer Support</SelectItem>
+            <SelectItem value="IT Support Specialist">IT Support Specialist</SelectItem>
+            <SelectItem value="Software Engineer">Software Engineer</SelectItem>
+        </SelectContent>
+    </Select>
+</div>
                     </div>
                     <div>
                         <div className="mb-2 block">

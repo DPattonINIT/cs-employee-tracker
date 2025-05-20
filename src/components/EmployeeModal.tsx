@@ -28,10 +28,12 @@ const EmployeeModal = ({ type, employee, refreshEmployees }: { type: 'Add' | 'Ed
 
     const [token, setToken] = useState('');
 
-    const disableBtn =
-        employeeToChange.name.trim() != "" ||
-        employeeToChange.jobTitle.trim() != "" &&
-        employeeToChange.hireDate != "";
+    const disableBtn = !(
+        employeeToChange.name.trim() !== "" &&
+        employeeToChange.jobTitle.trim() !== "" &&
+        employeeToChange.hireDate !== ""
+    );
+
 
     // Modal Functions
     const onOpenModal = () => {
@@ -161,12 +163,21 @@ const EmployeeModal = ({ type, employee, refreshEmployees }: { type: 'Add' | 'Ed
                             <div className="mb-2 block">
                                 <Label htmlFor="jobTitle">Job title</Label>
                             </div>
-                            <Input
+                            <select
                                 id="jobTitle"
                                 value={employeeToChange.jobTitle}
-                                onChange={handleEmployeeToChange}
-                            />
+                                onChange={(e) =>
+                                    setEmployeeToChange({ ...employeeToChange, jobTitle: e.target.value })
+                                }
+                                className="w-full border rounded px-3 py-2"
+                            >
+                                <option value="">Select a job title</option>
+                                <option value="Product Manager">Customer Support</option>
+                                <option value="Designer">IT Support Specialist</option>
+                                <option value="Software Engineer">Software Engineer</option>
+                            </select>
                         </div>
+
                     </div>
                     <div>
                         <div className="mb-2 block">
