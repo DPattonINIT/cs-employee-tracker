@@ -9,9 +9,12 @@ import { FaCaretDown, FaCaretUp } from 'react-icons/fa';
 import { Button } from './ui/button';
 import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from './ui/table';
 import EmployeeModal from './EmployeeModal';
+import { useAppContext } from '@/lib/context/context';
 
 const EmployeeTable = () => {
-  const { push } = useRouter();
+    const { push } = useRouter();
+
+    const { setEmployeeId } = useAppContext();
 
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [sortedEmployees, setSortedEmployees] = useState<Employee[]>([]);
@@ -63,15 +66,16 @@ const EmployeeTable = () => {
     setSortByJob(e.target.value);
   };
 
-  const handleDeleteEmployee = async (id: number) => {
-    try {
-      if (await deleteEmployee(token, id)) {
-        await handleGetEmployees();
-      }
-    } catch (error) {
-      console.log('error', error);
-    }
-  };
+    // Delete employee
+    const handleDeleteEmployee = async (id: number) => {
+        try {
+            if (await deleteEmployee(token, id)) {
+                await handleGetEmployees();
+            }
+        } catch (error) {
+            console.log("error", error);
+        }
+    };
 
   useEffect(() => {
     const handleToken = async () => {
@@ -198,69 +202,45 @@ const EmployeeTable = () => {
         </div>
       </div>
 
-      {/* Table */}
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="text-lg">Employee name</TableHead>
-            <TableHead className="text-lg">Job Title</TableHead>
-            <TableHead className="text-lg">Date Hired</TableHead>
-            <TableHead className="text-lg text-right">Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {paginatedEmployees.length === 0 ? (
-            <TableRow>
-              <TableCell></TableCell>
-              <TableCell className="text-center">No Employees</TableCell>
-              <TableCell></TableCell>
-            </TableRow>
-          ) : (
-            paginatedEmployees.map((employee, idx) => (
-              <TableRow key={idx}>
-                <TableCell className="font-medium">{employee.name}</TableCell>
-                <TableCell>{employee.jobTitle}</TableCell>
-                <TableCell>{employee.hireDate}</TableCell>
-                <TableCell className="flex gap-3 justify-end">
-                  <EmployeeModal
-                    type="Edit"
-                    employee={employee}
-                    refreshEmployees={handleGetEmployees}
-                  />
-                  <Button variant="destructive" onClick={() => handleDeleteEmployee(employee.id)}>
-                    Delete
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))
-          )}
-        </TableBody>
-      </Table>
-
-      {/* Pagination Controls */}
-      {sortedEmployees.length > itemsPerPage && (
-        <div className="flex justify-center mt-6 gap-4">
-          <Button
-            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-            disabled={currentPage === 1}
-            variant="outline"
-          >
-            Previous
-          </Button>
-          <span className="text-gray-600 dark:text-white">
-            Page {currentPage} of {totalPages}
-          </span>
-          <Button
-            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-            disabled={currentPage === totalPages}
-            variant="outline"
-          >
-            Next
-          </Button>
-        </div>
-      )}
-    </>
-  );
-};
+            {/* Display table - Start */}
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead className='text-lg'>Employee name</TableHead>
+                        <TableHead className='text-lg'>Job Title</TableHead>
+                        <TableHead className='text-lg'>Date Hired</TableHead>
+                        <TableHead className="text-lg text-right">Actions</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {sortedEmployees.length === 0 ? (
+                        <TableRow>
+                            <TableCell></TableCell>
+                            <TableCell className="text-center">
+                                No Employees
+                            </TableCell>
+                            <TableCell></TableCell>
+                        </TableRow>
+                    ) : (
+                        sortedEmployees.map((employee, idx) => (
+                            <TableRow key={idx}>
+                                <TableCell className="font-medium">{employee.name}</TableCell>
+                                <TableCell>{employee.jobTitle}</TableCell>
+                                <TableCell>{employee.hireDate}</TableCell>
+                                <TableCell className="flex gap-3 justify-end">
+                                    <EmployeeModal type="Edit" employee={employee} refreshEmployees={handleGetEmployees} />
+                                    <Button variant="destructive" onClick={() => handleDeleteEmployee(employee.id)}>
+                                        Delete
+                                    </Button>
+                                </TableCell>
+                            </TableRow>
+                        ))
+                    )}
+                </TableBody>
+            </Table>
+            {/* Display table - End */}
+        </>
+    )
+}
 
 export default EmployeeTable;

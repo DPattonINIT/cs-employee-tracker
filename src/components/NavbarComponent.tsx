@@ -1,12 +1,12 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { useLoginContext } from '@/lib/context/context';
+import { useAppContext } from '@/lib/context/context';
 import { useRouter } from 'next/navigation';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
 
 const NavbarComponent = () => {
-    const { isLoggedIn, setIsLoggedIn } = useLoginContext();
+    const { isLoggedIn, setIsLoggedIn } = useAppContext();
 
     const { push } = useRouter();
 
@@ -45,16 +45,16 @@ const NavbarComponent = () => {
 
     return (
         <div className="absolute top-0 w-full flex justify-between items-center p-4">
-        <h1 className="text-xl font-bold">Employee Tracker</h1>
-        {isLoggedIn && (
-            <DropdownMenu>
-                <DropdownMenuTrigger className="border px-4 py-2 rounded-md hover:cursor-pointer">{name}</DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                    <DropdownMenuItem className='hover:cursor-pointer' onClick={logout}>Sign out</DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
-        )}
-    </div>
+            <h1 className="text-xl font-bold">Employee Tracker</h1>
+            {isLoggedIn && (
+                <DropdownMenu>
+                    <DropdownMenuTrigger className="border px-4 py-2 rounded-md hover:cursor-pointer">{name}</DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        <DropdownMenuItem className='hover:cursor-pointer' onClick={logout}>Sign out</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            )}
+        </div>
     )
 }
 
